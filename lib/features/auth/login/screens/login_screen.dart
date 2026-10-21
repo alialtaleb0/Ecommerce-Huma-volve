@@ -1,4 +1,5 @@
 
+import 'package:ecommerce_app_huma_volve/core/network/api_dio.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/widgets/custom_text_field.dart';
@@ -15,6 +16,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final ApiDio _apiDio =ApiDio();
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
@@ -23,7 +25,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     emailController = TextEditingController();
     passwordController = TextEditingController();
-
     super.initState();
   }
 
@@ -31,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+    
     super.dispose();
   }
 
@@ -108,8 +110,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 32),
                 PrimaryButton(
                   text: 'Login',
-                  onPressed: () {
+                  onPressed: () async{
                     if (_formKey.currentState?.validate() ?? false) {
+                      final message=_apiDio.login(email: emailController.text.trim(), password: passwordController.text.trim());
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Success'))
+                      );
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (context) => MainNavigationScreen(),

@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_huma_volve/core/network/api_dio.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/widgets/custom_text_field.dart';
@@ -13,6 +14,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final ApiDio _apiDio =ApiDio();
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController nameController;
   late final TextEditingController emailController;
@@ -112,6 +114,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   text: 'Sign Up',
                   onPressed: () async {
                     if (_formKey.currentState?.validate() ?? false) {
+                      _apiDio.register(name: nameController.text.trim(), email: emailController.text.trim(), password: passwordController.text.trim());
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
